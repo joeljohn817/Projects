@@ -1,0 +1,30 @@
+import pandas as pd
+import numpy as np
+
+# Load and view data from csv file
+# 768 rows(observations) and 9 columns(features)
+diabetes_data = pd.read_csv('diabetes.csv')
+print(diabetes_data)
+
+# inspect databetes_data 
+print(diabetes_data.isnull().sum())
+
+# calculate summary statistics
+print(diabetes_data.describe())
+
+diabetes_data[['Glucose','BloodPressure','SkinThickness','Insulin','BMI']] = \
+diabetes_data[['Glucose','BloodPressure','SkinThickness','Insulin','BMI']].replace(0,np.nan)
+
+# check for null null vlues in all columns
+print(diabetes_data.isnull().sum())
+print(diabetes_data.info())
+
+# Print out all of the rows that contain missing (null) values.
+print(diabetes_data[diabetes_data.isnull().any(axis = 1)])
+
+# View data types for each column
+print(diabetes_data.dtypes)
+
+# Viewing unique data in Outcome column and replacing string character with integers
+diabetes_data.Outcome = diabetes_data.Outcome.replace({'1' : 1, "0": 0, "O": 0})
+print(diabetes_data.Outcome.unique())
