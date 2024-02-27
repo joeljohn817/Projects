@@ -1,0 +1,39 @@
+import scipy.stats as stats
+import numpy as np
+
+# Distribution in Theory
+# create a variable to represent the rate paramter of our distribution
+lam = 7
+
+# the probability of observing exactly lam defects on a given day
+print('The probability of observing exactly lam defects on a given day is' ,stats.poisson.pmf(lam,lam))
+
+# the probability of having 4 or fewer defects on a given day
+print('The probability of having 4 or fewer defects on a given day is',stats.poisson.cdf(4,lam))
+
+# the probability of having more than 9 defects on a given day
+print('The probability of having more than 9 defects on a given day is',1-stats.poisson.cdf(9,lam))
+
+
+# Distribution in Practice
+# 365 random values from poisson distribuition
+year_defects = stats.poisson.rvs(lam, size=365)
+print('First 20 values in this data set',year_defects[0:20])  # First 20 values in this data set
+print('Total number of defects we would expect over 365 day is',lam * 365)  # Total number of defects we would expect over 365 days
+print('Total sum of the data set year_defects is',sum(year_defects)) # total sum of the data set year_defects
+
+
+# the average number of defects per day from our simulated dataset
+#print('The average number defects per day from our simulated dataset is ',np.mean(year_defects))
+
+print('The maxiumum value of year_defects is',year_defects.max())# Maxiumum value of year_defects
+
+# the probability of observing that maximum value or more from the Poisson(7) distribution
+print('The probability of observing that maximum value or more from the Poisson(7) distribution is',1-stats.poisson.cdf(year_defects.max(), lam))
+
+# Number of defects that would put us in the 90th percentile for a given day
+print('The number of defects that places us in the 90th percentile is',stats.poisson.ppf(0.9,lam))
+
+# Proportion of our simulated dataset greater than or equal to the value that place us in the 90th percentile
+print(sum(year_defects > stats.poisson.ppf(0.9,lam))/len(year_defects))
+
